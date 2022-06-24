@@ -1,0 +1,15 @@
+{
+  "name": "test-exercise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sam-barker/test-exercise.git",
+  "author": "Samuel Barker <dev@sam-barker.co.uk>",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "npx playwright install",
+    "test:headed": "npx playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.22.2"
+  }
+}
