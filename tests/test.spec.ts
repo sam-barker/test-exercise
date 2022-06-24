@@ -45,9 +45,8 @@ test('Password which satisfies only 8 characters', async ({ page }) => {
 })
 
 test('Password which satisfies only 1 number', async ({ page }) => {
-    const passwordField = page.locator(Locators.PasswordField)
-    await passwordField.type('1')
-    await passwordField.evaluate(e => e.blur())
+    const signUpPage = new SignUpPage(page)
+    await signUpPage.addPassword('1')
 
     const passwordRequirements = await signUpPage.getPasswordRequirements()
 
@@ -76,7 +75,7 @@ test('Password which satisfies only casing', async ({ page }) => {
 
 test('Password satisfies all cases', async ({ page }) => {
     const signUpPage = new SignUpPage(page)
-    await signUpPage.addPassword('Testing1029384756')
+    await signUpPage.addPassword('T3s7i0n9')
 
     const passwordRequirements = await signUpPage.getPasswordRequirements()
 
@@ -90,9 +89,9 @@ test('should advance to the next page on successful creation', async ({ page }) 
     const signUpPage = new SignUpPage(page)
 
     await signUpPage.addEmail()
-    await signUpPage.addPassword('Testing1234567890')
+    await signUpPage.addPassword('T3s7i0n9')
     await signUpPage.submitForm()
 
     const yourDetailsPage = new YourDetailsPage(page)
-    await yourDetailsPage.waitForPageLoad()
+    await expect(yourDetailsPage.detailsHeader).toBeVisible()
 })

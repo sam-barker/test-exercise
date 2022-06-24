@@ -23,8 +23,8 @@ export class YourDetailsPage {
         this.maidenName = page.locator('#security')
     }
 
-    async waitForPageLoad() {
-        await this.header.isVisible()
+    get detailsHeader() {
+        return this.header
     }
 
     async fillInRandomDetails() {
