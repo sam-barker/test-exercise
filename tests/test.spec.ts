@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { SignUpPage } from '../page-objects/sign-up'
-import { YourDetailsPage, YourDetailsPage } from '../page-objects/your-details'
+import { YourDetailsPage } from '../page-objects/your-details'
 
 test.beforeEach(async ({ page }) => {
     const signUpPage = new SignUpPage(page)
