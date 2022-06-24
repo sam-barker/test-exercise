@@ -32,7 +32,7 @@ export class YourDetailsPage {
         await this.lastName.type('Testy')
         await this.dobDay.type('1')
         await this.dobMonth.type('1')
-        await this.dobYear.type('2022')
+        await this.dobYear.type('1980')
         await this.maidenName.type('Testmaidenname')
     }
 

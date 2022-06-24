@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { SignUpPage } from '../page-objects/sign-up'
 import { YourDetailsPage } from '../page-objects/your-details'
+import { BillingPage } from '../page-objects/billing'
 
 test.beforeEach(async ({ page }) => {
     const signUpPage = new SignUpPage(page)
@@ -85,7 +86,7 @@ test('Password satisfies all cases', async ({ page }) => {
     })
 })
 
-test('should advance to the next page on successful creation', async ({ page }) => {
+test('should advance all the way to billing address after creation', async ({ page }) => {
     const signUpPage = new SignUpPage(page)
 
     await signUpPage.addEmail()
@@ -94,4 +95,10 @@ test('should advance to the next page on successful creation', async ({ page }) 
 
     const yourDetailsPage = new YourDetailsPage(page)
     await expect(yourDetailsPage.detailsHeader).toBeVisible()
+
+    await yourDetailsPage.fillInRandomDetails()
+    await yourDetailsPage.submitForm()
+
+    const billingPage = new BillingPage(page)
+    await expect(billingPage.billingAddressHeader).toBeVisible()
 })
