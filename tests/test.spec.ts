@@ -3,6 +3,16 @@ import { SignUpPage } from "../page-objects/sign-up";
 import { YourDetailsPage } from "../page-objects/your-details";
 import { BillingPage } from "../page-objects/billing";
 
+const expectNotValidAndNotInvalid = (element) => {
+  expect(element.getAttribute("data-valid")).toEqual("false");
+  expect(element.getAttribute("data-invalid")).toEqual("false");
+};
+
+const expectInvalid = (element) => {
+  expect(element.getAttribute("data-valid")).toEqual("false");
+  expect(element.getAttribute("data-invalid")).toEqual("true");
+};
+
 test.beforeEach(async ({ page }) => {
   const signUpPage = new SignUpPage(page);
   await signUpPage.goto();
@@ -13,10 +23,7 @@ test("Password requirements should not be fulfilled on start", async ({
 }) => {
   const signUpPage = new SignUpPage(page);
   const passwordRequirements = await signUpPage.getPasswordRequirements();
-  passwordRequirements.forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("false");
-  });
+  passwordRequirements.forEach(expectNotValidAndNotInvalid);
 });
 
 test("Password which fails all three criteria", async ({ page }) => {
@@ -24,10 +31,7 @@ test("Password which fails all three criteria", async ({ page }) => {
   await signUpPage.addPassword("a");
 
   const passwordRequirements = await signUpPage.getPasswordRequirements();
-  passwordRequirements.forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("true");
-  });
+  passwordRequirements.forEach(expectInvalid);
 });
 
 test("Password which satisfies only 8 characters", async ({ page }) => {
@@ -35,16 +39,8 @@ test("Password which satisfies only 8 characters", async ({ page }) => {
   await signUpPage.addPassword("aaaaaaaaaa");
 
   const passwordRequirements = await signUpPage.getPasswordRequirements();
-
-  passwordRequirements.slice(0, 1).forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("false");
-  });
-
-  passwordRequirements.slice(1).forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("true");
-  });
+  passwordRequirements.slice(0, 1).forEach(expectNotValidAndNotInvalid);
+  passwordRequirements.slice(1).forEach(expectInvalid);
 });
 
 test("Password which satisfies only 1 number", async ({ page }) => {
@@ -52,16 +48,8 @@ test("Password which satisfies only 1 number", async ({ page }) => {
   await signUpPage.addPassword("1");
 
   const passwordRequirements = await signUpPage.getPasswordRequirements();
-
-  passwordRequirements.slice(0, 2).forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("false");
-  });
-
-  passwordRequirements.slice(2).forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("true");
-  });
+  passwordRequirements.slice(0, 2).forEach(expectNotValidAndNotInvalid);
+  passwordRequirements.slice(2).forEach(expectInvalid);
 });
 
 test("Password which satisfies only casing", async ({ page }) => {
@@ -83,11 +71,7 @@ test("Password satisfies all cases", async ({ page }) => {
   await signUpPage.addPassword("T3s7i0n9");
 
   const passwordRequirements = await signUpPage.getPasswordRequirements();
-
-  passwordRequirements.forEach((element) => {
-    expect(element.getAttribute("data-valid")).toEqual("false");
-    expect(element.getAttribute("data-invalid")).toEqual("false");
-  });
+  passwordRequirements.forEach(expectNotValidAndNotInvalid);
 });
 
 test("should advance all the way to billing address after creation", async ({
