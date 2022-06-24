@@ -6,10 +6,15 @@
   "author": "Samuel Barker <dev@sam-barker.co.uk>",
   "license": "MIT",
   "scripts": {
+    "prepare": "husky install",
     "postinstall": "npx playwright install",
+    "format": "prettier --write **/*.ts",
+    "format:check": "prettier --check **/*.ts",
     "test:headed": "npx playwright test --headed"
   },
   "devDependencies": {
-    "@playwright/test": "^1.22.2"
+    "@playwright/test": "^1.22.2",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1"
   }
 }
